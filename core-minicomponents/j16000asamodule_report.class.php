@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Core file.
  *
@@ -63,11 +63,7 @@ class j16000asamodule_report
 
             $output[ 'SHORTCODE_INFO_CASTOR_V_CASTOR_SCRIPT' ] = jr_gettext('SHORTCODE_INFO_CASTOR_V_CASTOR_SCRIPT', 'SHORTCODE_INFO_CASTOR_V_CASTOR_SCRIPT', false);
 
-			if (this_cms_is_wordpress()) {
-				$output[ 'INFO' ] = jr_gettext('_CASTOR_SHORTCODES_INFO_WORDPRESS', '_CASTOR_SHORTCODES_INFO_WORDPRESS', false);
-			} else {
-				$output[ 'INFO' ] = jr_gettext('_CASTOR_SHORTCODES_INFO_JOOMLA', '_CASTOR_SHORTCODES_INFO_JOOMLA', false);
-			}
+			$output[ 'INFO' ] = jr_gettext('_CASTOR_SHORTCODES_INFO_JOOMLA', '_CASTOR_SHORTCODES_INFO_JOOMLA', false);
 
 			$rows = array();
 			foreach ($castor_shortcode_parser->shortcodes as $key => $trigger) {
@@ -109,16 +105,9 @@ class j16000asamodule_report
 								$arg_str .= '&'.$parameter.'='.$example;
 							}
 
-							if (this_cms_is_wordpress()) {
-								$arg_str = 'params="'.$arg_str.'"';
-							}
 						}
 
-						if (this_cms_is_wordpress()) {
-							$r['EXAMPLE'] = '[castor task="'.$r['TASK'].'" '.$arg_str.']';
-						} else {
-							$r['EXAMPLE'] = '{castor '.$r['TASK'].' '.$arg_str.'}';
-						}
+						$r['EXAMPLE'] = '{castor '.$r['TASK'].' '.$arg_str.'}';
 						$r['EXAMPLE'] = str_replace('&', '&amp;', $r['EXAMPLE']);
 
 						$rows[] = $r;

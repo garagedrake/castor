@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 	/**
 	 * Core file.
 	 *
@@ -545,7 +545,6 @@ class castor_obsolete_file_handling
 		$this->add_dir($this->dir_libraries.'castor'.JRDS.'cms_specific'.JRDS.'joomla34'.JRDS);
 		$this->add_dir($this->dir_libraries.'castor'.JRDS.'cms_specific'.JRDS.'joomla35'.JRDS);
 		$this->add_dir($this->dir_libraries.'castor'.JRDS.'cms_specific'.JRDS.'joomla36'.JRDS);
-		$this->add_dir($this->dir_libraries.'castor'.JRDS.'cms_specific'.JRDS.'wordpress3'.JRDS);
 
 		$this->add_file($this->dir_minicomponents.'j10002zzz_about_asamodule.class.php');
 		$this->add_file($this->dir_minicomponents.'j16000about_asamodule.class.php');
@@ -709,7 +708,6 @@ class castor_obsolete_file_handling
 		$this->add_file($this->dir_minicomponents.'j00009user_option_05_add_your_property.class.php');
 		$this->add_file($this->dir_minicomponents.'j00009user_option_05_myinvoices.class.php');
 		$this->add_file($this->dir_minicomponents.'j00010reception_option_01_home.class.php');
-		$this->add_file($this->dir_minicomponents.'j00010reception_option_01_wp_control_panel.class.php');
 		$this->add_file($this->dir_minicomponents.'j00010reception_option_03_dobooking.class.php');
 		$this->add_file($this->dir_minicomponents.'j00010reception_option_05_list_bookings.class.php');
 		$this->add_file($this->dir_minicomponents.'j00010reception_option_06_newguest.class.php');
@@ -783,7 +781,6 @@ class castor_obsolete_file_handling
 		$this->add_dir($this->dir_libraries.'class.JavaScriptPacker.php');
 		$this->add_dir($this->dir_libraries.'castor'.JRDS.'cms_specific'.JRDS.'joomla3'.JRDS.'installfiles'.JRDS);
 		$this->add_dir($this->dir_libraries.'castor'.JRDS.'cms_specific'.JRDS.'joomla4'.JRDS.'installfiles'.JRDS);
-		$this->add_dir($this->dir_libraries.'castor'.JRDS.'cms_specific'.JRDS.'wordpress'.JRDS.'installfiles'.JRDS);
 
 		$this->add_file($this->dir_templates_bootstrap_administrator.'obsolete_files_wrapper.html');
 		$this->add_file($this->dir_templates_bootstrap_administrator.'obsolete_files_warning.html');

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Core file.
  *
@@ -45,11 +45,7 @@ class j00021colourscheme
 		}
 
 		if (!using_bootstrap()) {
-			if (!this_cms_is_wordpress()) {
-				$css_file = 'castorcss.css';
-			} else {
-				$css_file = 'castorcss_wordpress.css';
-			}
+			$css_file = 'castorcss.css';
 		} else {
 			if (castor_cmsspecific_areweinadminarea()) {
 				switch (_CASTOR_DETECTED_CMS) {

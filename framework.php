@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 	/**
 	 *
 	 * @author Vince Wooll <sales@castor.net>
@@ -73,12 +73,8 @@
 				/* Create the Application */
 				$app = JFactory::getApplication('site');
 			}
-		} elseif (!defined('WPINC') && file_exists(dirname(__FILE__).'/../wp-load.php')) {
-			define('WP_USE_THEMES', false);
-			/** Loads the WordPress Environment */
-			require_once dirname(__FILE__).'/../wp-load.php';
 		} else {
-			die('Could not detect CMS. Exiting.');
+			die('Could not detect Joomla. Exiting.');
 		}
 
 		return true;

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
 
  *
@@ -27,7 +27,7 @@ defined('_CASTOR_INITCHECK') or die('');
 
 if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
 	$currTimeLimit = ini_get('max_execution_time');
-	@set_time_limit($currTimeLimit); // This setting is absolutely required for systems that will use channel management functionality as deferred notifications to Beds24 can take quite a while. Ideally we'd set this to 0 however some installations, particularly Wordpress installations that may be on "budget" and or shared hosting packages might throw at minimum a warning about setting the limit to 0. We'll try instead to set it to the max execution time and hope that that's enough. It will be in 99% of cases.
+	@set_time_limit($currTimeLimit); // This setting is absolutely required for systems that will use channel management functionality as deferred notifications to Beds24 can take quite a while. Ideally we'd set this to 0 however some installations might throw at minimum a warning about setting the limit to 0. We'll try instead to set it to the max execution time and hope that that's enough. It will be in 99% of cases.
 }
 
 if (isset($_REQUEST['task']) && isset($_REQUEST['field'])) { // Booking engine heartbeat is used to keep the session alive, but doesn't do anything else. We'll kill it dead right off the bat.
@@ -324,16 +324,10 @@ try {
 
 	}
 
-	if (defined('WORDPRESS_NON_BOOTSTRAP_TWEAKS') && !defined('WORDPRESS_NON_BOOTSTRAP_TWEAKS_SHOWN') ) {
-		define('WORDPRESS_NON_BOOTSTRAP_TWEAKS_SHOWN' , 1 );
-		echo WORDPRESS_NON_BOOTSTRAP_TWEAKS;
-	}
 
 	if (isset($_REQUEST['from_admin']) && !$thisJRUser->userIsRegistered) {
 		echo simple_template_output(CASTOR_TEMPLATEPATH_FRONTEND, 'from_admin_not_logged_in.html', jr_gettext('CASTOR_COM_TRANSITION_FROM_ADMIN_TO_BACKEND_NOT_LOGGED_IN', 'CASTOR_COM_TRANSITION_FROM_ADMIN_TO_BACKEND_NOT_LOGGED_IN', false));
-		if (this_cms_is_joomla()) { // Wordpress users do not need exposition because the session is shared between frontend and admin. Joomla users will see this page if session sharing is not enabled and they're not logged in, therefore further explanation may help them if they're unfamiliar with Castor.
-			echo simple_template_output(CASTOR_TEMPLATEPATH_FRONTEND, 'from_admin_not_logged_in_joomla_exposition.html', jr_gettext('CASTOR_COM_TRANSITION_FROM_ADMIN_TO_BACKEND_NOT_LOGGED_IN_EXPOSITION_FOR_NEW_USERS_JOOMLA', 'CASTOR_COM_TRANSITION_FROM_ADMIN_TO_BACKEND_NOT_LOGGED_IN_EXPOSITION_FOR_NEW_USERS_JOOMLA', false));
-		}
+		echo simple_template_output(CASTOR_TEMPLATEPATH_FRONTEND, 'from_admin_not_logged_in_joomla_exposition.html', jr_gettext('CASTOR_COM_TRANSITION_FROM_ADMIN_TO_BACKEND_NOT_LOGGED_IN_EXPOSITION_FOR_NEW_USERS_JOOMLA', 'CASTOR_COM_TRANSITION_FROM_ADMIN_TO_BACKEND_NOT_LOGGED_IN_EXPOSITION_FOR_NEW_USERS_JOOMLA', false));
 
 	} else {
 		//handle tasks

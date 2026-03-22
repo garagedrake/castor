@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Core file.
  *
@@ -100,11 +100,7 @@ class j00004b_init_javascript_css_files
 
 
 		$datepicker_localisation_file = '';
-		if (this_cms_is_wordpress()) {
-			castor_cmsspecific_addheaddata('css', $themePath, 'jquery-ui.min.css');
-			$javascript_files[] = array(CASTOR_NODE_MODULES_RELPATH.'jquery-ui-dist/', 'jquery-ui.min.js');
-			$datepicker_localisation_file = 'datepicker-'.get_showtime('datepicker_lang').'.js';
-		} elseif (get_showtime('task') != 'showplugins') { // We're in Joomla frontend
+		if (get_showtime('task') != 'showplugins') { // We're in Joomla frontend
 			castor_cmsspecific_addheaddata('css', $themePath, 'jquery-ui.min.css');
 			$javascript_files[] = array(CASTOR_NODE_MODULES_RELPATH.'jquery-ui-dist/', 'jquery-ui.min.js');
 			$datepicker_localisation_file = 'datepicker-'.get_showtime('datepicker_lang').'.js';
@@ -117,16 +113,6 @@ class j00004b_init_javascript_css_files
 				$css_files[] = array(CASTOR_ROOT_DIRECTORY.'/libraries/fullscreen_view/castor_bootstrap_wrapper/css/', 'castor_bootstrap_wrapper.css');
 			}
 			
-			if (this_cms_is_wordpress()) {
-				$javascript_files[] = array(CASTOR_ROOT_DIRECTORY.'/libraries/fullscreen_view/castor_bootstrap_wrapper/js/', 'bootstrap-modal.js');
-				$javascript_files[] = array(CASTOR_ROOT_DIRECTORY.'/libraries/fullscreen_view/castor_bootstrap_wrapper/js/', 'bootstrap-tooltip.js');
-				$javascript_files[] = array(CASTOR_ROOT_DIRECTORY.'/libraries/fullscreen_view/castor_bootstrap_wrapper/js/', 'bootstrap-popover.js');
-				$javascript_files[] = array(CASTOR_ROOT_DIRECTORY.'/libraries/fullscreen_view/castor_bootstrap_wrapper/js/', 'bootstrap-collapse.js');
-				$javascript_files[] = array(CASTOR_ROOT_DIRECTORY.'/libraries/fullscreen_view/castor_bootstrap_wrapper/js/', 'bootstrap-dropdown.js');
-				$javascript_files[] = array(CASTOR_ROOT_DIRECTORY.'/libraries/fullscreen_view/castor_bootstrap_wrapper/js/', 'bootstrap-tab.js');
-				$javascript_files[] = array(CASTOR_ROOT_DIRECTORY.'/libraries/fullscreen_view/castor_bootstrap_wrapper/js/', 'bootstrap-transition.js');
-				$javascript_files[] = array(CASTOR_ROOT_DIRECTORY.'/libraries/fullscreen_view/castor_bootstrap_wrapper/js/', 'castor_bootstrap_wrapper.js');
-			}
 		}
 
 		$javascript_files[] = array(CASTOR_JS_RELPATH, 'castor.js');

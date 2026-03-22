@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Detect the host CMS 
  *
@@ -17,14 +17,11 @@ defined('_CASTOR_INITCHECK') or die('');
 /**
  * Detects which CMS Castor is installed on.
  * 
- * In theory Castor can (with the appropriate supporting CMS specific functionality) be run on any PHP CMS, although in practice only Joomla and Wordpress are supported, there simply isn't enough demand for any other CMSs. First looks to see if we are installed on a recognised CMS, if _CASTOR_DETECTED_CMS isn't found then we'll scan CASTOR_REMOTEPLUGINS_ABSPATH (typically /castor/remote_plugins/) to find another file that will set the Detected CMS.
+ * In theory Castor can (with the appropriate supporting CMS specific functionality) be run on any PHP CMS, although in practice only Joomla is supported. First looks to see if we are installed on a recognised CMS, if _CASTOR_DETECTED_CMS isn't found then we'll scan CASTOR_REMOTEPLUGINS_ABSPATH (typically /castor/remote_plugins/) to find another file that will set the Detected CMS.
  * 
  **/
  
-if (file_exists(CASTORCONFIG_ABSOLUTE_PATH.JRDS.'wp-config.php')) {
-	define('_CASTOR_DETECTED_CMS', 'wordpress');
-	define('_CASTOR_DETECTED_CMS_SPECIFIC_FILES', CASTOR_CMSSPECIFIC_ABSPATH._CASTOR_DETECTED_CMS.JRDS);
-} elseif (file_exists(CASTORCONFIG_ABSOLUTE_PATH.JRDS.'libraries'.JRDS.'cms'.JRDS.'version'.JRDS.'version.php')) {
+if (file_exists(CASTORCONFIG_ABSOLUTE_PATH.JRDS.'libraries'.JRDS.'cms'.JRDS.'version'.JRDS.'version.php')) {
 	if (!defined('JPATH_PLATFORM')) {
 		define('JPATH_PLATFORM', 1);
 	} // Joomla 3.3.1 uses this instead of JEXEC.

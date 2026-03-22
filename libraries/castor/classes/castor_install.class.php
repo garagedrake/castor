@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Core file.
  *
@@ -85,13 +85,7 @@ class castor_install
 		//castor integration.php, so we can use castor features
 		require_once __DIR__ .  '/../../../integration.php';
 		
-		//if this cms is WordPress and we`re running the installer from Castor itself,
-		//the mysqli db connection the installer uses won`t be available, so we`ll have to manually initialize the db connection.
-		//TODO: try to use $wpdb insetad
-		if (this_cms_is_wordpress()) {
-			$castor_database = castor_singleton_abstract::getInstance('castor_database');
-			$castor_database->init();
-		}
+
 		
 		//castor site config
 		$this->siteConfig = castor_singleton_abstract::getInstance('castor_config_site_singleton');

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Core file.
  *
@@ -220,22 +220,12 @@ $this->miniComponentDirectories = ' .var_export($this->miniComponentDirectories,
 	// If this is Joomla we'll also scan the Joomla template's html/com_castor dir for minicomponents.
 	public function getMiniComponentCmsTemplateClasses()
 	{
-		if (!this_cms_is_joomla() && !this_cms_is_wordpress()) {
-			return;
-		}
+		$db = JFactory::getDBO();
+		$query = 'SELECT `template` FROM #__template_styles WHERE `client_id` = 0 AND `home` = 1';
+		$db->setQuery($query);
+		$templateName = $db->loadResult();
 
-		if (this_cms_is_joomla()) {
-			$db = JFactory::getDBO();
-			$query = 'SELECT `template` FROM #__template_styles WHERE `client_id` = 0 AND `home` = 1';
-			$db->setQuery($query);
-			$templateName = $db->loadResult();
-
-			$jrePath = CASTORCONFIG_ABSOLUTE_PATH.'templates'.JRDS.$templateName.JRDS.'html'.JRDS.'com_castor'.JRDS;
-		} elseif (this_cms_is_wordpress()) {
-			$jrePath = get_stylesheet_directory().JRDS.'html'.JRDS.'com_castor'.JRDS;
-		} else {
-			return;
-		}
+		$jrePath = CASTORCONFIG_ABSOLUTE_PATH.'templates'.JRDS.$templateName.JRDS.'html'.JRDS.'com_castor'.JRDS;
 
 		$d = @dir($jrePath);
 		$docs = array();

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Core file.
  *
@@ -81,9 +81,7 @@ class castor_database
 			$this->dbtype = 'mysqli';
 		}
 
-		if (!this_cms_is_wordpress() || defined('AUTO_UPGRADE')) {
-			$this->init();
-		}
+		$this->init();
 	}
 	
 	/**
@@ -148,17 +146,15 @@ class castor_database
 
 	public function close()
 	{
-		if (!this_cms_is_wordpress() || defined('AUTO_UPGRADE')) {
-			switch ($this->dbtype) {
-				case 'mysqli':
-					mysqli_close($this->link);
-					break;
-				case 'pdomysql':
-					$this->PDO = null;
-					break;
-				default:
-					break;
-			}
+		switch ($this->dbtype) {
+			case 'mysqli':
+				mysqli_close($this->link);
+				break;
+			case 'pdomysql':
+				$this->PDO = null;
+				break;
+			default:
+				break;
 		}
 
 		return true;
@@ -172,31 +168,6 @@ class castor_database
 
 	public function query()
 	{
-		if (this_cms_is_wordpress() && !defined('AUTO_UPGRADE')) {
-			global $wpdb;
-
-			$this->result = $wpdb->query($this->query);
-
-			if ($this->result !== false) {
-				$this->last_id = false;
-
-				if ($wpdb->insert_id > 0) {
-					$this->last_id = $wpdb->insert_id;
-				}
-
-				if ((int) $this->result == 0) {
-					return true;
-				} else {
-					return $this->result;
-				}
-			} else {
-				if ($wpdb->last_error !== '') {
-					$this->error = $wpdb->last_result;
-				}
-			}
-
-			return false;
-		} else {
 			switch ($this->dbtype) {
 				case 'mysqli':
 					$this->result = mysqli_query($this->link, $this->query);
@@ -256,7 +227,6 @@ class castor_database
 						break;
 				}
 
-				return false;
 			}
 		}
 	}
@@ -269,15 +239,8 @@ class castor_database
 
 	public function setQuery($query)
 	{
-		if (this_cms_is_wordpress() && !defined('AUTO_UPGRADE')) {
-			global $wpdb;
-			
-			$q = str_replace('#__', "{$wpdb->prefix}", $query);
-			$this->query = $q;
-		} else {
-			$q = str_replace('#__', $this->db_prefix, $query);
-			$this->query = $q;
-		}
+		$q = str_replace('#__', $this->db_prefix, $query);
+		$this->query = $q;
 	}
 	
 	/**
@@ -295,17 +258,6 @@ class castor_database
 		$this->stmt = null;
 		$this->result = array();
 
-		if (this_cms_is_wordpress() && !defined('AUTO_UPGRADE')) {
-			global $wpdb;
-			if (strpos($this->query, ";") > 0) { // To allow multiple queries to be run (specifically, the ajax query that grumbles about GROUP BY mode)
-				$bang = explode(";", $this->query);
-				foreach ($bang as $query) {
-					$this->result = $wpdb->get_results($query, OBJECT);
-				}
-			} else {
-				$this->result = $wpdb->get_results($this->query, OBJECT);
-			}
-		} else {
 			switch ($this->dbtype) {
 				case 'mysqli':
 					if (strpos($this->query, ";") > 0) { // To allow multiple queries to be run (specifically, the ajax query that grumbles about GROUP BY mode)
@@ -364,9 +316,7 @@ class castor_database
 						break;
 					default:
 						break;
-				}
 			}
-		}
 
 		return $this->result;
 	}

@@ -1,4 +1,4 @@
-﻿<?PHP
+<?PHP
 // ################################################################
 	defined( '_CASTOR_INITCHECK' ) or die( '' );
 // ################################################################
@@ -137,15 +137,6 @@
 						$override_path = CASTORCONFIG_ABSOLUTE_PATH . "templates" .JRDS. $joomla_templateName .JRDS . 'html' . JRDS . $name;
 				}
 			}
-			elseif (this_cms_is_wordpress()) {
-				$path_to_template =  get_theme_file_path();
-				$override_path = $path_to_template . JRDS . 'html' . JRDS . 'com_castor';
-
-				//ptype specific override_path
-				if ( $ptype_id > 0 ) {
-					if ( file_exists($override_path . JRDS . $ptype_id . JRDS . $castor_template_name) )
-						$override_path = $override_path . JRDS . $ptype_id;
-				}
 			}
 
 			if ( get_showtime('task') != '' && file_exists( $path_to_template . JRDS . 'html' . JRDS . get_showtime('task'). JRDS . $castor_template_name ) )  {

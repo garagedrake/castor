@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * This script is mainly used for bootstrapping Castor. It's old code, but it checks out.
  *
@@ -35,8 +35,6 @@ if (!defined('TRANSACTION_ID')) {
 /**
 *
 * castor root directory name
-*
-* Wordpress determined for some reason that the Castor root directory should be configurable as a condition of listing Castor on the Wordpress plugin directory. CMS root directories are sometimes not writable by the web server and castor_root.php cannot be created, in which case we will assume that the Castor root directory is called "castor"
 *
 */
 if (!defined('CASTOR_ROOT_DIRECTORY')) {

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 	/**
 	 * Core file.
 	 *
@@ -115,7 +115,7 @@
 
 			$result = '';
 
-			if (this_cms_is_joomla() || this_cms_is_wordpress()) {
+			if (this_cms_is_joomla()) {
 				if ($thisJRUser->userIsManager) {
 					$output[ 'HACTIVE_PROPERTY' ] = jr_gettext('_CASTOR_HSTATUS_CURRENT', '_CASTOR_HSTATUS_CURRENT', false).': ';
 

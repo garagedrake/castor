@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Core file.
  *
@@ -474,7 +474,7 @@ class j16000addplugin
 					touch($remote_pluginsDirPath.$pluginName.JRDS.'index.html');
 
 					if (isset($plugin_class->data[ 'type' ]) && ($plugin_class->data[ 'type' ] == 'mambot' || $plugin_class->data[ 'type' ] == 'module' || $plugin_class->data[ 'type' ] == 'widget')) {
-						if (this_cms_is_joomla() || this_cms_is_wordpress()) {
+						if (this_cms_is_joomla()) {
 							if (!$autoupgrade) {
 								$plugin_installed_successfully = true;
 								$discovery_required = true;
@@ -513,13 +513,8 @@ class j16000addplugin
 			if ($plugin_installed_successfully) {
 				$success = array();
 				if ($discovery_required) {
-					if ($plugin_class->data[ 'type' ] == 'widget') { // It's a wordpress widget
-						$output[ 'NEXT_STEP' ] = get_showtime('live_site').'/'.CASTOR_ADMINISTRATORDIRECTORY.'/plugins.php';
-						$success[ ] = array('MESSAGE' => 'Successfully installed the '.$pluginName.' plugin. The next button will take you to the Wordpress plugins page where you can activate the plugin.');
-					} else {
 						$output[ 'NEXT_STEP' ] = get_showtime('live_site').'/'.CASTOR_ADMINISTRATORDIRECTORY.'/index.php?option=com_installer&view=discover';
 						$success[ ] = array('MESSAGE' => 'Successfully installed the '.$pluginName." plugin. The next button will take you to the Extension Discovery page where you can finish the plugin's installation.");
-					}
 				} else {
 					$output[ 'NEXT_STEP' ] = CASTOR_SITEPAGE_URL_ADMIN.'&task=showplugins#'.$pluginName;
 					$success[ ] = array('MESSAGE' => 'Successfully installed the '.$pluginName.' plugin. The next page will take you back to the Castor plugin manager.');

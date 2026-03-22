@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Core file.
  *
@@ -68,7 +68,7 @@ class j00001define_template_paths
 		}
 
 		if (!defined('CASTOR_TEMPLATEPATH_ADMINISTRATOR')) {
-			if (_CASTOR_DETECTED_CMS == 'joomla3' || this_cms_is_wordpress()) {
+			if (_CASTOR_DETECTED_CMS == 'joomla3') {
 				define('CASTOR_TEMPLATEPATH_ADMINISTRATOR', CASTORPATH_BASE.JRDS.'assets'.JRDS.'templates'.JRDS.'bootstrap'.JRDS.'administrator');
 			} elseif (_CASTOR_DETECTED_CMS == 'joomla4') {
 				define('CASTOR_TEMPLATEPATH_ADMINISTRATOR', CASTORPATH_BASE.JRDS.'assets'.JRDS.'templates'.JRDS.'bootstrap5'.JRDS.'administrator');

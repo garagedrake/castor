@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Core file.
  *
@@ -2168,7 +2168,7 @@ function alterCustomertypesIsChildCol()
     }
 }
 
-// In Castor 8.1 we're offering the ability to use a different path to the Castor root directory due to requirements of the wordpress repository. As a result, we need to change the paths to the property feature and room type images.
+// In Castor 8.1 we offered the ability to use a different path to the Castor root directory. As a result, we need to change the paths to the property feature and room type images.
 /**
  *
  * @package Castor\Core\Database

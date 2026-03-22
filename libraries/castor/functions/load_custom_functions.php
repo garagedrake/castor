@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 	/**
 	 *
@@ -34,8 +34,6 @@
 
 
 if (!defined('CASTOR_OVERRIDE_PATH')) {
-    if (_CASTOR_DETECTED_CMS !== 'wordpress') {
-
         if (!defined('API_STARTED')) {
             $app = JFactory::getApplication();
             $joomla_templateName = $app->getTemplate('template')->template;
@@ -53,10 +51,6 @@ if (!defined('CASTOR_OVERRIDE_PATH')) {
         }
         $path_to_template = CASTORCONFIG_ABSOLUTE_PATH . "templates" .JRDS. $joomla_templateName ;
         $override_path = $path_to_template .JRDS . 'html' . JRDS . 'com_castor'.JRDS;
-    } else {
-        $path_to_template =  get_theme_file_path();
-        $override_path = $path_to_template . JRDS . 'html' . JRDS . 'com_castor'.JRDS;
-    }
 
     define('CASTOR_OVERRIDE_PATH',$override_path);
 

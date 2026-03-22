@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Core file.
  *
@@ -29,7 +29,7 @@ if (AJAXCALL) {
 }
 
 // If Castor is set to Development mode, it will set it's own error handler. Here we'll hand error handling back to the host CMS once Castor has done it's thing.
-// Joomla's debug mode generates a lot of data and is slow, so during dev I've been enabling/disabling it as required, but I'd prefer to handle Castor errors independently of Joomla or Wordpress
+// Joomla's debug mode generates a lot of data and is slow, so during dev I've been enabling/disabling it as required, but I'd prefer to handle Castor errors independently of Joomla
 $siteConfig = castor_singleton_abstract::getInstance('castor_config_site_singleton');
 $jrConfig = $siteConfig->get();
 if ($jrConfig[ 'development_production' ] != 'production') {

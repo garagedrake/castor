@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Core file.
  *
@@ -320,11 +320,7 @@ class castor_cron
 
 			//run each job
 			foreach ($this->dueJobs as $job) {
-				if (this_cms_is_wordpress()) {
-					$url = $livesite.'&task=cron_'.$job[ 'job_name' ].'&secret='.$castorConfig_secret;
-				} else {
-					$url = $livesite.'&task=cron_'.$job[ 'job_name' ].'&secret='.$castorConfig_secret;
-				}
+				$url = $livesite.'&task=cron_'.$job[ 'job_name' ].'&secret='.$castorConfig_secret;
 
 				castor_async_request("GET", $url, 0, array());
 

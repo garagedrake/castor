@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Core file.
  *
@@ -29,16 +29,9 @@ if ($bs_version == '2') {
 	{
 	}
 } elseif ($bs_version == '5') {
-	if (this_cms_is_wordpress()) {
-		jr_import('castor_content_tabs_bootstrap5_wordpress');
-		class castor_content_tabs extends castor_content_tabs_bootstrap5_wordpress
-		{
-		}
-	} else {
-		jr_import('castor_content_tabs_bootstrap5');
-		class castor_content_tabs extends castor_content_tabs_bootstrap5
-		{
-		}
+	jr_import('castor_content_tabs_bootstrap5');
+	class castor_content_tabs extends castor_content_tabs_bootstrap5
+	{
 	}
 } else { // BS4
 	jr_import('castor_content_tabs_bootstrap4');

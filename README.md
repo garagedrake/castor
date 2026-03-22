@@ -1,8 +1,6 @@
-﻿![](https://img.shields.io/badge/Coded%20By%20Human-100%25-brightgreen)
+# Castor Core - Online Booking Engine for Joomla
 
-# Castor Core - Online Booking Engine for WordPress and Joomla
-
-Castor is the only Joomla & WordPress Online Booking engine with PMS features and built-in REST API. 
+Castor is the only Joomla Online Booking engine with PMS features and built-in REST API. 
 
 It is 100% Open Source.  
 
@@ -18,7 +16,7 @@ Tech : PHP/Mysql/Apache/JavaScript
 
 ## Mature
 
-Started in 2005 and consistently maintained ever since Castor has evolved to be a powerful online booking engine for both WordPress and Joomla.
+Started in 2005 and consistently maintained ever since Castor has evolved to be a powerful online booking engine for Joomla.
 
 ## Powerful
 

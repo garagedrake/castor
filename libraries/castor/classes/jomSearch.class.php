@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 	/**
 	 * Core file.
 	 *
@@ -44,13 +44,9 @@
 			}
 
 			if (isset($_REQUEST['template_file']) && $_REQUEST['template_file'] != '') {
-				if (this_cms_is_wordpress()) {
-					$override_path = get_template_directory() . JRDS . 'html' . JRDS . 'com_castor';
-				} else {
-					$app = JFactory::getApplication();
-					$joomla_templateName = $app->getTemplate('template')->template;
-					$override_path = CASTORCONFIG_ABSOLUTE_PATH . "templates" .JRDS. $joomla_templateName .JRDS . 'html' . JRDS . 'com_castor';
-				}
+				$app = JFactory::getApplication();
+				$joomla_templateName = $app->getTemplate('template')->template;
+				$override_path = CASTORCONFIG_ABSOLUTE_PATH . "templates" .JRDS. $joomla_templateName .JRDS . 'html' . JRDS . 'com_castor';
 
 				if (file_exists($override_path.JRDS.$_REQUEST['template_file'].'.html')) {
 					$this->templateFilePath = $override_path.JRDS;
@@ -70,16 +66,12 @@
 					$this->templateFile = $calledByModule . '.html';
 				}
 
-				if ((($calledByModule == 'mod_jomsearch_m0' && $jrConfig['integratedSearch_enable'] == '1' && this_cms_is_joomla()) ||
-						($calledByModule == 'mod_jomsearch_m0' && this_cms_is_wordpress() && $includedInModule))
+				if (($calledByModule == 'mod_jomsearch_m0' && $jrConfig['integratedSearch_enable'] == '1')
 					&& !isset($_REQUEST['search_widget'])
 				) {
 					$this->templateFilePath = CASTOR_TEMPLATEPATH_FRONTEND;
 					$this->templateFile = 'search.html';
 
-					if (this_cms_is_wordpress() && $jrConfig['is_single_property_installation'] == '1') {
-						$this->templateFile = 'search_single_property.html';
-					}
 				}
 			}
 
@@ -154,7 +146,7 @@
 			This *soley* enables searching on various arrays, *if* they're populated. It will inevitably add some queries, but only if calledbymodule is set to m0
 
 			*/
-			if ($calledByModule == 'mod_jomsearch_m0' && !this_cms_is_wordpress()) {
+			if ($calledByModule == 'mod_jomsearch_m0') {
 				$vals[ 'propertyname' ] = true;
 				$vals[ 'ptype' ]		= true;
 				$vals[ 'cat_id' ]	   = true;

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Core file.
  *
@@ -36,9 +36,6 @@ class castor_data_source_base
 		$this->file_name = 'data_source_'.$source_type.'.json';
 
 		$this->cms_languages = $this->get_installed_cms_languages();
-		if (empty($this->cms_languages) && this_cms_is_wordpress()) {
-			$this->cms_languages[] = "en-US";
-		}
 	}
 
 	// Get the languages installed on the host CMS
@@ -46,17 +43,10 @@ class castor_data_source_base
 	{
 		$languages = [];
 
-		if (this_cms_is_joomla()) {
-			$query = "SELECT `lang_code` FROM #__languages";
-			$installed_languages = doSelectSql($query);
-			foreach ($installed_languages as $lang) {
-				$languages[]=$lang->lang_code;
-			}
-		} else {
-			$installed_languages = get_available_languages();
-			foreach ($installed_languages as $lang) {
-				$languages[] = str_replace("_", "-", $lang);
-			}
+		$query = "SELECT `lang_code` FROM #__languages";
+		$installed_languages = doSelectSql($query);
+		foreach ($installed_languages as $lang) {
+			$languages[]=$lang->lang_code;
 		}
 		return $languages;
 	}

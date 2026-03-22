@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  *
  * Core file.
@@ -203,7 +203,7 @@ if (!function_exists('run_castor_shortcode')) {
         $regex = '/{castor\s*.*?}/i';
         preg_match_all($regex, $shortcode_string, $matches);
 
-        // New style so that we can use exactly the same shortcodes in both Joomla and WordPress
+        // New style so that we can use exactly the same shortcodes in Joomla
         if ($matches[0] == [] ) {
             $regex = '/\[castor\s*.*?\]/i';
             preg_match_all($regex, $shortcode_string, $matches);
@@ -1367,22 +1367,6 @@ if (!function_exists('getCurrentUrl')) {
 }
 
 
-/**
- *
- * @package Castor\Core\Functions
- *
- * Return true if the host CMS is Wordpress.
- */
-if (!function_exists('this_cms_is_wordpress')) {
-    function this_cms_is_wordpress()
-    {
-        if (_CASTOR_DETECTED_CMS != 'wordpress') {
-            return false;
-        }
-
-        return true;
-    }
-}
 
 
 
@@ -1524,17 +1508,6 @@ if (!function_exists('castor_bootstrap_version')) {
             $bootstrap_version = '5';
         } elseif (castor_cmsspecific_areweinadminarea() && _CASTOR_DETECTED_CMS == 'joomla3') {
             $bootstrap_version = '2';
-        } elseif (this_cms_is_wordpress()) { // We are in Wordpress, so we'll automatically set the BS version to 2 if in admin, or BS3 in frontend as the init config vars functionality will autoload the BS3 scripts in the frontend
-            if (castor_cmsspecific_areweinadminarea()) {
-                $bootstrap_version = '2';
-            } elseif ($jrConfig[ 'bootstrap_version' ] != '') {
-                $bootstrap_version = (int)$jrConfig[ 'bootstrap_version' ];
-                if ($bootstrap_version == 0) {
-                    $bootstrap_version = '5';
-                }
-            } else {
-                $bootstrap_version = '5';
-            }
         } else {
             $bootstrap_version = $jrConfig[ 'bootstrap_version' ];
         }
@@ -2329,23 +2302,15 @@ if (!function_exists('getting_started')) {
 		<div class="' .$class.'" style="width:100%;">
 		<div style="' .$style.'">
 		<h3 class="page-header">Introduction.</h3>
-		<p>Firstly, a basic installation of Castor, with absolutely no plugins, is a working booking extension for Joomla and Wordpress. Whilst this is sufficient for a small site with just one property you may quickly find that you want to add more functionality and features to the system, taking it from a simple booking system to a full online booking portal where you can gain revenue from listing properties on your site, earning commission, or taking booking deposits online.</p>
+		<p>Firstly, a basic installation of Castor, with absolutely no plugins, is a working booking extension for Joomla. Whilst this is sufficient for a small site with just one property you may quickly find that you want to add more functionality and features to the system, taking it from a simple booking system to a full online booking portal where you can gain revenue from listing properties on your site, earning commission, or taking booking deposits online.</p>
 		<p>Unless you want to build the code yourself, the best source of additional functionality is usually the <a href="' .CASTOR_SITEPAGE_URL_ADMIN.'&task=showplugins" target="_blank">Castor Plugin Manager.</a> There are over <a href="https://www.castor.net/castor-plugins" target="_blank">160 plugins available</a> that extend the system and I\'ve worked hard to make the Plugin Manager extremely easy to use.</p>
 		<h3 class="page-header">First steps.</h3>
 		<p>Now that you\'ve seen some of the extra features on offer, you are ready to start setting up your site. To begin with, I\'d like you to ignore the "administrator" area of Castor altogether for the time being, a new installation of Castor includes sample data and for now you should experiment with setting up your default property.
 		<ol>
 			<li>When Castor is installed, the first thing it does is configure your "admin" user to be a Super Property Manager. Super Managers have super powers unavailable to normal Property Managers. If your administrator user is a different user you might need to add them as a Super Property Manager via the <a href="' .CASTOR_SITEPAGE_URL_ADMIN.'&task=list_users" target="_blank">Property Managers</a> page. View it now just to check that your administrator user has a purple badge. If they haven\'t you will need to edit their record to ensure that they are super managers before you log into the frontend of your site. Note : Super property managers do not need to be associated with a specific property, they have access to all properties.</li>
 			';
-        if (this_cms_is_joomla()) {
-            echo '<li>Next, add Castor to your <a href="'.get_showtime('live_site').'/administrator/index.php?option=com_menus&view=items&menutype=mainmenu" target="_blank"> Main Menu</a>, as you would any other Joomla extension.</li>';
-            echo '<li>Now go to the <a href="'.get_showtime('live_site').'/index.php" target="_blank">public pages</a> of your site and log in as your admin user. When you click on the <a href="'.get_showtime('live_site').'/index.php?option=com_castor" target="_blank">Main Menu link to Castor</a>, as you are logged in, you will see the <a href="http://www.castor.net/manual/property-managers-guide/38-your-toolbar" target="_blank">Property Manager\'s toolbar</a>.</li>';
-        } elseif (this_cms_is_wordpress()) {
-            echo '<li>Next you want to make sure that Castor pages are visible to site visitors, so <strong>you will need to add the <i>[castor:en-US]</i> shortcode to <a href="'.get_showtime('live_site').'/wp-admin/post-new.php?post_type=page"  target="_blank">a new page</strong></a> to display your Castor pages in the public area of Wordpress. Call it something like "Bookings".</li>';
-
-            echo '<li>In the next step, you will need to add the newly created page to your main menu. In the WordPress sidebar click Appearance > Menus, in the <i>"Add menu items"</i> panel you should see the most recently added pages, including the new Bookings page. Click the checkbox next to it, and then click "Add to menu". Save the menu. </li>';
-
-            echo '<li>Now go to the <a href="'.get_showtime('live_site').'/index.php" target="_blank">public pages</a> of your site whhile you are logged in as "admin". When you visit the post you added the shortcode to, as you are logged in, you will see the <a href="http://www.castor.net/manual/property-managers-guide/38-your-toolbar" target="_blank">Property Manager\'s toolbar</a>. </li>';
-        }
+        echo '<li>Next, add Castor to your <a href="'.get_showtime('live_site').'/administrator/index.php?option=com_menus&view=items&menutype=mainmenu" target="_blank"> Main Menu</a>, as you would any other Joomla extension.</li>';
+        echo '<li>Now go to the <a href="'.get_showtime('live_site').'/index.php" target="_blank">public pages</a> of your site and log in as your admin user. When you click on the <a href="'.get_showtime('live_site').'/index.php?option=com_castor" target="_blank">Main Menu link to Castor</a>, as you are logged in, you will see the <a href="http://www.castor.net/manual/property-managers-guide/38-your-toolbar" target="_blank">Property Manager\'s toolbar</a>.</li>';
 
         echo '<li>You are now ready to start configuring your property, and adding new properties, if you need more than one. If you only need one property I advise you to visit <a href="'.CASTOR_SITEPAGE_URL_ADMIN.'&task=site_settings" target="_blank">Site Configuration</a> and in the "Portal functionality" tab set the option <i>"Is this a single property installation?"</i> to Yes. </li>
 		</ol>
@@ -2966,39 +2931,6 @@ if (!function_exists('install_external_plugin')) {
     function install_external_plugin($plugin_name, $plugin_type, $mambot_type = '', $params = '', $remote_plugin_component_folder = 'c', $remote_plugin_administrator_folder = 'a', $remote_plugin_module_folder = 'm', $remote_plugin_mambot_folder = 'b')
     {
         switch ($plugin_type) {
-            case 'widget': // Wordpress widgets
-                if (file_exists(CASTOR_COREPLUGINS_ABSPATH.$plugin_name.JRDS.'plugin_info.php')) {
-                    $widget_source = CASTOR_COREPLUGINS_ABSPATH.$plugin_name.JRDS;
-                } else {
-                    $widget_source = CASTOR_REMOTEPLUGINS_ABSPATH.$plugin_name.JRDS;
-                }
-
-                $widget_target = CASTORCONFIG_ABSOLUTE_PATH.JRDS.'wp-content'.JRDS.'plugins'.JRDS.$plugin_name;
-
-                if (!test_and_make_directory($widget_target)) {
-                    error_logging('Error, unable to write to '.$widget_target.' Please ensure that the parent path is writable by the web server ');
-
-                    return false;
-                }
-
-                emptyDir($widget_target);
-
-                $plugin_info_file = $widget_source.'plugin_info.php';
-                $plugin_info_file_temp = CASTOR_SYSTEMLOG_PATH.'plugin_info.php';
-                copy($plugin_info_file, $plugin_info_file_temp);
-
-                $widget_move_result = dirmv($widget_source, $widget_target, true, $funcloc = '/');
-
-                if ($widget_move_result[ 'success' ]) {
-                    copy($plugin_info_file_temp, $plugin_info_file);
-                    unlink($plugin_info_file_temp);
-
-                    return true;
-                } else {
-                    return false;
-                }
-
-                break;
             case 'module':
                 $module_full_name = 'mod_'.$plugin_name;
                 if (file_exists(CASTOR_COREPLUGINS_ABSPATH.$plugin_name.JRDS.'plugin_info.php')) {
@@ -3382,7 +3314,7 @@ if (!function_exists('dirmv')) {
 /**
  * @package Castor\Core\Functions
  *
- * Allows us to work independantly of Joomla or Wordpress emailers.
+ * Allows us to work independantly of Joomla emailers.
  */
 if (!function_exists('castorMailer')) {
     function castorMailer($from, $castorConfig_sitename, $to, $subject, $body, $mode = 1, $attachments = array(), $debugging = true)
@@ -4318,12 +4250,7 @@ if (!function_exists('propertyConfiguration')) {
             } elseif ($bs_version == '3' || $bs_version == 0) {
                 $configurationPanel = castor_singleton_abstract::getInstance('castor_configpanel_bootstrap3');
             } elseif ($bs_version == '5') {
-                if (this_cms_is_wordpress()) {
-                    jr_import('castor_content_tabs_bootstrap5_wordpress');
-                    $configurationPanel = castor_singleton_abstract::getInstance('castor_configpanel_bootstrap5_wordpress');
-                } else {
-                    $configurationPanel = castor_singleton_abstract::getInstance('castor_configpanel_bootstrap5');
-                }
+                $configurationPanel = castor_singleton_abstract::getInstance('castor_configpanel_bootstrap5');
             }
 
             $componentArgs[ 'configurationPanel' ]  = $configurationPanel;

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 	/**
 	 * Core file.
 	 *
@@ -182,9 +182,6 @@ class j06000search
 
 		$h = '<input type="hidden" name="calledByModule" value="'.$sch->calledByModule.'"/><input type="hidden" name="Itemid" value="'.get_showtime('castorItemid').'"/>';
 
-		if (this_cms_is_wordpress()) {
-			$h = '<input type="hidden" name="calledByModule" value="'.$sch->calledByModule.'"/><input type="hidden" name="page_id" value="'.get_showtime('castorItemid').'"/>';
-		}
 
 		$output[ 'HIDDEN' ] = $h;
 		$castorSearchFormname = $sch->formname;

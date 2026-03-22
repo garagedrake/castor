@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  *
  * @package Castor\Core\REST_API
@@ -33,27 +33,6 @@ if (file_exists(CASTOR_API_CMS_ROOT.DIRECTORY_SEPARATOR.'configuration.php')) {
 	$dsn = 'mysql:dbname='.$db.';host='.$host;
 	$username = $CONFIG->user;
 	$password = $CONFIG->password;
-} elseif (file_exists(CASTOR_API_CMS_ROOT.DIRECTORY_SEPARATOR.'wp-config.php')) {
-	$db_details = array();
-
-	$wp_config_file = file(CASTOR_API_CMS_ROOT.DIRECTORY_SEPARATOR.'wp-config.php');
-	$settings = array('DB_NAME','DB_USER','DB_PASSWORD','DB_HOST');
-
-	foreach ( $wp_config_file as $line ) {
-		if (strpos($line, '$table_prefix') !== false) {
-			$dbprefix = explode(' = ',$line)[1];
-			$dbprefix = str_replace('\'', '', $dbprefix);
-			$dbprefix = trim(str_replace(';', '', $dbprefix));
-		}
-	}
-
-	$db_details = get_wordpress_data(CASTOR_API_CMS_ROOT.DIRECTORY_SEPARATOR.'wp-config.php');
-
-	$db = $db_details['db_name'];
-	$host = $db_details['db_host'];
-	$dsn = 'mysql:dbname='.$db.';host='.$host;
-	$username = $db_details['db_user'];
-	$password = $db_details['db_password'];
 } else {
 	die(json_encode('Cant find configuration file.')); // No findie el config file!
 }
@@ -65,34 +44,4 @@ define('CASTOR_API_DB_PASSWORD', $password);
 define('CASTOR_API_DB_DB_PREFIX', $dbprefix);
 
 
-function get_wordpress_data( $file_location ) {
-	$content = @file_get_contents( $file_location  );
-
-	if( ! $content ) {
-		return false;
-	}
-
-	$params = [
-		'db_name' => "/define.+?'DB_NAME'.+?'(.*?)'.+/",
-		'db_user' => "/define.+?'DB_USER'.+?'(.*?)'.+/",
-		'db_password' => "/define.+?'DB_PASSWORD'.+?'(.*?)'.+/",
-		'db_host' => "/define.+?'DB_HOST'.+?'(.*?)'.+/",
-	];
-
-	$return = [];
-
-	foreach( $params as $key => $value ) {
-
-		$found = preg_match_all( $value, $content, $result );
-
-		if( $found ) {
-			$return[ $key ] = $result[ 1 ][ 0 ];
-		} else {
-			$return[ $key ] = false;
-		}
-
-	}
-
-	return $return;
-}
 

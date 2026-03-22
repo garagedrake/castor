@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Core file.
  *
@@ -63,11 +63,7 @@ class j16000show_reviews_message
 			"capterra" => array ( "url" => 'https://www.capterra.com/p/134469/Castor/' , "site_name" => "Capterra" )
 		);
 
-		if (this_cms_is_joomla()) {
-			$review_sites['joomla'] = array ( "url" => 'https://extensions.joomla.org/extensions/extension/vertical-markets/booking-a-reservations/castor/' , "site_name" => "Joomla Extension Directory" );
-		} else {
-			$review_sites['wordpress'] = array ( "url" => 'https://wordpress.org/support/plugin/castor/reviews/' , "site_name" => "Wordpress repository" );
-		}
+		$review_sites['joomla'] = array ( "url" => 'https://extensions.joomla.org/extensions/extension/vertical-markets/booking-a-reservations/castor/' , "site_name" => "Joomla Extension Directory" );
 		
 		$message = '';
 
