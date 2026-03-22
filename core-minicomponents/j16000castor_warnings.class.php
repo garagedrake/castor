@@ -97,7 +97,7 @@ class j16000castor_warnings
 			get_showtime('task') != 'updates'
 		) {
 			//castor plugin update check
-			$output['PLUGIN_UPDATES_AVAILABLE'] = $MiniComponents->specificEvent('16000', 'castor_plugin_update_check', array('output_now' => true));
+			//$output['PLUGIN_UPDATES_AVAILABLE'] = $MiniComponents->specificEvent('16000', 'castor_plugin_update_check', array('output_now' => true));
 		}
 
 		$pageoutput[ ] = $output;

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 	/**
 	 * Core file.
 	 *
@@ -60,55 +60,29 @@ class j16000updates
 
 		if (!isset($_REQUEST['do_update'])) {
 			$this_version = get_castor_current_version();
-			$latest_version = get_latest_castor_version();
+			$latest_version = $this_version;
 
 			$output[ 'NIGHTLY_WARNING' ] = '';
-			if ($this->development_production == 'development') {
-				$output[ 'NIGHTLY_WARNING' ] = simple_template_output(CASTOR_TEMPLATEPATH_ADMINISTRATOR, $template = 'update_nightly_warning.html', jr_gettext('CASTOR_ADMIN_UPDATE_NIGHTLY_WARNING', 'CASTOR_ADMIN_UPDATE_NIGHTLY_WARNING', false));
-			}
-
+			
 			$output[ '_CASTOR_VERSIONCHECK_THISCASTORVERSION' ]		= jr_gettext('_CASTOR_VERSIONCHECK_THISCASTORVERSION', '_CASTOR_VERSIONCHECK_THISCASTORVERSION', false);
 			$output[ '_CASTOR_VERSIONCHECK_LATESTCASTORVERSION' ]	= jr_gettext('_CASTOR_VERSIONCHECK_LATESTCASTORVERSION', '_CASTOR_VERSIONCHECK_LATESTCASTORVERSION', false);
-			$output[ 'CASTOR_UPDATE_MESSAGE_LINK' ]					= jr_gettext('CASTOR_UPDATE_MESSAGE_LINK', 'CASTOR_UPDATE_MESSAGE_LINK', false);
-			$output[ 'CASTOR_UPDATES_TITLE' ]						= jr_gettext('CASTOR_UPDATES_TITLE', 'CASTOR_UPDATES_TITLE', false);
-			$output[ 'CASTOR_UPDATES_INFO' ]						= jr_gettext('CASTOR_UPDATES_INFO', 'CASTOR_UPDATES_INFO', false);
+			$output[ 'CASTOR_UPDATE_MESSAGE_LINK' ]					= 'Updates Disabled';
+			$output[ 'CASTOR_UPDATES_TITLE' ]						= 'Updates';
+			$output[ 'CASTOR_UPDATES_INFO' ]						= 'Automated updates are disabled in this version of Castor. Please update manually via GitHub.';
 
 			$output['THIS_VERSION']		= $this_version;
-			$output['LATEST_VERSION']	= $latest_version;
-			$output['URL']	= CASTOR_SITEPAGE_URL_ADMIN.'&task=updates&do_update=1';
+			$output['LATEST_VERSION']	= $this_version;
+			$output['URL']	= 'javascript:void(0);';
 
-			if (isset($_REQUEST['echo'])) {
-				echo $output[ '_CASTOR_VERSIONCHECK_THISCASTORVERSION' ].' '.$output['THIS_VERSION'].'<br/>';
-				echo $output[ '_CASTOR_VERSIONCHECK_LATESTCASTORVERSION' ].' '.$output['LATEST_VERSION'].'<br/>';
-
-				echo '<a href="'.$output['URL'].'" class="btn btn-primary" >'.$output[ 'CASTOR_UPDATE_MESSAGE_LINK' ].'</a>';
-			} else {
-				$pageoutput[ ] = $output;
-				$tmpl = new patTemplate();
-				$tmpl->setRoot(CASTOR_TEMPLATEPATH_ADMINISTRATOR);
-				$tmpl->addRows('pageoutput', $pageoutput);
-				$tmpl->readTemplatesFromInput('upgrade_warning.html');
-				$tmpl->displayParsedTemplate();
-			}
+			$pageoutput[ ] = $output;
+			$tmpl = new patTemplate();
+			$tmpl->setRoot(CASTOR_TEMPLATEPATH_ADMINISTRATOR);
+			$tmpl->addRows('pageoutput', $pageoutput);
+			$tmpl->readTemplatesFromInput('upgrade_warning.html');
+			$tmpl->displayParsedTemplate();
 		} else {
-			//emptyDir(CASTOR_LIBRARIES_ABSPATH.'packages');
-			//rmdir(CASTOR_LIBRARIES_ABSPATH.'packages');
-
-			$this->do_download_and_unzip($local_archive);
-			if (!$this->test_download) {
-				$this->do_dir_move();
-			}
-
-
-
-			unlink($local_archive);
-
-			if (!$this->test_download) {
-				// castor_install handles database updates,
-				jr_import('castor_install');
-				$castor_install = new castor_install('update');
-			}
-			castorRedirect(castorURL(CASTOR_SITEPAGE_URL_ADMIN), '');
+			echo 'Updates are disabled. Please perform manual updates.';
+			return;
 		}
 	}
 

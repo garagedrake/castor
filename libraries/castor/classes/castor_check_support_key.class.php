@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Core file.
  *
@@ -86,114 +86,15 @@ class castor_check_support_key
 
 	public function check_license_key($force = false, $key = '')
 	{
-
-		
-		
-		$siteConfig = castor_singleton_abstract::getInstance('castor_config_site_singleton');
-		$jrConfig = $siteConfig->get();
-
-		if (!isset($jrConfig['licensekey'])) { // Probably installing
-			return;
-		}
-
-		if ($key == '') {
-			$str = 'key='.$jrConfig['licensekey'];
-		} else {
-			$str = 'key='.$key;
-		}
-		$this->key_hash = $jrConfig['licensekey'];
-
-		$license_data = new stdClass();
-		
-		$license_data->license_name = 'Unknown';
-		$license_data->expires = 'Unknown';
-		$license_data->key_status = 'Unknown';
-		$license_data->owner = 'Unknown';
-		$license_data->license_valid = false;
-		$license_data->allows_plugins = false;
-		$license_data->is_trial_license = false;
-
-		if (file_exists(CASTOR_TEMP_ABSPATH.'license_key_check_cache.php')) {
-			$last_modified = filemtime(CASTOR_TEMP_ABSPATH.'license_key_check_cache.php');
-			$seconds_timediff = time() - $last_modified;
-			if ($seconds_timediff > 86400) {
-				unlink(CASTOR_TEMP_ABSPATH.'license_key_check_cache.php');
-			} else {
-				include CASTOR_TEMP_ABSPATH.'license_key_check_cache.php';
-			}
-		}
-
-
-
-		if (!file_exists(CASTOR_TEMP_ABSPATH.'license_key_check_cache.php') || $force) {
-			$buffer = queryUpdateServer('check_key.php', $str, 'updates');
-			if ($buffer != '') {
-				$license_data = json_decode($buffer);
-
-				if (!is_object($license_data)) {
-					$license_data = new stdClass();
-				}
-				if (isset($license_data->license_valid) && $license_data->license_valid === true) {
-					$license_data->license_valid = '1';
-				} else {
-					$license_data->license_valid = '0';
-				}
-
-				if (is_null($license_data->expires)) {
-					$license_data->expires = 'Unknown';
-				}
-				if (is_null($license_data->allows_plugins)) {
-					$license_data->allows_plugins = 'Unknown';
-				}
-				if (is_null($license_data->is_trial_license)) {
-					$license_data->is_trial_license = 'Unknown';
-				}
-
-				if (!isset($license_data->status)) {
-					$license_data->key_status = 'Unknown';
-				} else {
-					$license_data->key_status = $license_data->status;
-				}
-
-				$lic_data = '<?php
-defined( \'_CASTOR_INITCHECK\' ) or die( \'\' );
-$license_data	= new stdClass;
-$license_data->license_name = "'.$license_data->license_name.'";
-$license_data->expires = "'.$license_data->expires.'";
-$license_data->key_status = "'.$license_data->key_status.'";
-$license_data->owner = "'.$license_data->owner.'";
-$license_data->license_valid = "'.$license_data->license_valid.'";
-$license_data->allows_plugins = "'.$license_data->allows_plugins.'";
-$license_data->is_trial_license = "'.$license_data->is_trial_license.'";
-$license_data->allowed_plugins = "'.$license_data->allowed_plugins.'";
-';
-				
-				file_put_contents(CASTOR_TEMP_ABSPATH.'license_key_check_cache.php', $lic_data);
-			}
-		}
-
-		if (!empty($license_data)) { // Query failed for some reason, perhaps slow connection
-			$this->expires = $license_data->expires;
-			$this->key_status = $license_data->key_status;
-			$this->owner = $license_data->owner;
-			$this->license_name = $license_data->license_name;
-			if (isset($license_data->allowed_plugins)) {
-				$this->allowed_plugins = explode(",", $license_data->allowed_plugins);
-			} else {
-				$this->allowed_plugins = array();
-			}
-			
-			
-			if ($license_data->license_valid == true) {
-				$this->key_valid = true;
-			}
-			$this->allows_plugins = $license_data->allows_plugins;
-			if ($license_data->is_trial_license == 'Unknown') {
-				$license_data->is_trial_license = false;
-			}
-
-			$this->is_trial_license = (bool) $license_data->is_trial_license;
-		}
+		$this->key_valid = true;
+		$this->key_hash = 'CASTOR-FREE-LICENSE';
+		$this->expires = 'Never';
+		$this->key_status = 'Active';
+		$this->owner = 'Castor Community';
+		$this->license_name = 'Castor Free Edition';
+		$this->allows_plugins = '1';
+		$this->is_trial_license = false;
+		$this->allowed_plugins = array();
 	}
 }
 

@@ -2333,32 +2333,8 @@ if (!function_exists('getting_started')) {
 if (!function_exists('query_shop')) {
     function query_shop($request = '')
     {
-        if ($request == '') {
-            echo 'Request not set';
-            exit;
-        }
-
-        if (!function_exists('curl_init')) {
-            return 'Error, CURL not enabled on this server.';
-        } else {
-            $url = 'http://license-server.castor.net/shop/index.php?'.$request;
-            logging::log_message('Starting curl call to '.$url, 'Curl', 'DEBUG');
-            $logging_time_start = microtime(true);
-
-            $curl_handle = curl_init();
-            curl_setopt($curl_handle, CURLOPT_URL, $url);
-            curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 2);
-            curl_setopt($curl_handle, CURLOPT_USERAGENT, 'Castor');
-            curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
-            $response = curl_exec($curl_handle);
-            curl_close($curl_handle);
-
-            $logging_time_end = microtime(true);
-            $logging_time = $logging_time_end - $logging_time_start;
-            logging::log_message('Curl call took '.$logging_time.' seconds ', 'Curl', 'DEBUG');
-
-            return json_decode($response);
-        }
+        logging::log_message('Bypassed external call to shop server', 'Curl', 'DEBUG');
+        return new stdClass();
     }
 
 }
@@ -3137,38 +3113,8 @@ if (!function_exists('dropPlugin')) {
 if (!function_exists('queryUpdateServer')) {
     function queryUpdateServer($script, $queryString, $serverType = 'plugin')
     {
-        $siteConfig = castor_singleton_abstract::getInstance('castor_config_site_singleton');
-        $jrConfig = $siteConfig->get();
-
-        if ($serverType == 'plugin') {
-            $updateServer = 'http://plugins.castor.net';
-        } else {
-            $updateServer = 'http://updates.castor.net';
-        }
-
-        if (strlen($script) == 0) {
-            $script = 'index.php';
-        }
-
-        $response = '';
-
-        $query_string = $script.'?'.$queryString.'&castorver='.$jrConfig[ 'version' ].'&hostname='.get_showtime('live_site');
-
-        try {
-            $client = new GuzzleHttp\Client([
-                'base_uri' => $updateServer,
-                'track_redirects' => false
-            ]);
-
-            logging::log_message('Starting guzzle call to '.$updateServer.'/'.$query_string, 'Guzzle', 'DEBUG');
-
-            $response = $client->request('GET', $query_string)->getBody()->getContents();
-        } catch (Exception $e) {
-            $castor_user_feedback = castor_singleton_abstract::getInstance('castor_user_feedback');
-            $castor_user_feedback->construct_message(array('message'=>'Could not query the updates server', 'css_class'=>'alert-danger alert-error'));
-        }
-
-        return $response;
+        logging::log_message('Bypassed external call to '.$serverType.' server: '.$script, 'Guzzle', 'DEBUG');
+        return '';
     }
 }
 
@@ -5677,52 +5623,7 @@ if (!function_exists('get_castor_current_version')) {
 if (!function_exists('get_latest_castor_version')) {
     function get_latest_castor_version($outputText = true)
     {
-        $siteConfig = castor_singleton_abstract::getInstance('castor_config_site_singleton');
-        $jrConfig = $siteConfig->get();
-
-        if (file_exists(CASTOR_TEMP_ABSPATH.'latest_version.php')) {
-            $last_modified = filemtime(CASTOR_TEMP_ABSPATH.'latest_version.php');
-            $seconds_timediff = time() - $last_modified;
-            if ($seconds_timediff > 3600) {
-                unlink(CASTOR_TEMP_ABSPATH.'latest_version.php');
-            } else {
-                $buffer = file_get_contents(CASTOR_TEMP_ABSPATH.'latest_version.php');
-            }
-        }
-
-        if (!file_exists(CASTOR_TEMP_ABSPATH.'latest_version.php')) {
-            $base_uri = 'http://updates.castor.net/';
-            $query_string = 'versions.php';
-
-            $buffer = '';
-
-            try {
-                $client = new GuzzleHttp\Client([
-                    'base_uri' => $base_uri
-                ]);
-
-                logging::log_message('Starting guzzle call to '.$base_uri.$query_string, 'Guzzle', 'DEBUG');
-
-                $buffer = $client->request('GET', $query_string)->getBody()->getContents();
-            } catch (Exception $e) {
-                $castor_user_feedback = castor_singleton_abstract::getInstance('castor_user_feedback');
-                $castor_user_feedback->construct_message(array('message'=>'Could not get latest Castor version', 'css_class'=>'alert-danger alert-error'));
-            }
-
-            if ($buffer != '') {
-                file_put_contents(CASTOR_TEMP_ABSPATH.'latest_version.php', $buffer);
-            }
-        }
-
-        if (empty($buffer)) {
-            if ($outputText) {
-                echo '<div class="alert alert-error alert-danger">Sorry, could not get latest version of Castor, is there a firewall preventing communication with http://updates.castor.net ? Alternatively, please check that CURL is enabled on this webserver</div>';
-            } else {
-                return false;
-            }
-        } else {
-            return $buffer;
-        }
+        return get_castor_current_version();
     }
 }
 

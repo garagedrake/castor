@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Core file.
  *
@@ -56,39 +56,7 @@ class j16000castor_news
 		$news_rows = array();
 		$pageoutput = array();
 
-		if (file_exists(CASTOR_TEMP_ABSPATH.'news.php')) {
-			$last_modified = filemtime(CASTOR_TEMP_ABSPATH.'news.php');
-			$seconds_timediff = time() - $last_modified;
-			if ($seconds_timediff > 3600) {
-				unlink(CASTOR_TEMP_ABSPATH.'news.php');
-			} else {
-				$buffer = file_get_contents(CASTOR_TEMP_ABSPATH.'news.php');
-			}
-		}
-
-		if (!file_exists(CASTOR_TEMP_ABSPATH.'news.php')) {
-			$base_uri = 'http://updates.castor.net/';
-			$query_string = 'news.php';
-			
-			$buffer = '';
-
-			try {
-				$client = new GuzzleHttp\Client([
-					'base_uri' => $base_uri
-				]);
-
-				logging::log_message('Starting guzzle call to '.$base_uri.$query_string, 'Guzzle', 'DEBUG');
-
-				$buffer = $client->request('GET', $query_string)->getBody()->getContents();
-			} catch (Exception $e) {
-				$castor_user_feedback = castor_singleton_abstract::getInstance('castor_user_feedback');
-				$castor_user_feedback->construct_message(array('message'=>'Could not get castor news', 'css_class'=>'alert-danger alert-error'));
-			}
-			
-			if ($buffer != '') {
-				file_put_contents(CASTOR_TEMP_ABSPATH.'news.php', $buffer);
-			}
-		}
+		$buffer = json_encode(array());
 
 		if (empty($buffer)) {
 			$output[ 'LATEST_CASTOR_VERSION' ] = 'Sorry, could not get latest Castor news, is there a firewall or slow internet connection preventing communication with http://updates.castor.net ?<p>';
