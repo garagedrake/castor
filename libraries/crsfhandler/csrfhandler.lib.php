@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 	
 	/*
 	
@@ -21,10 +21,12 @@
 			
 			csrf::startSession();
 			
-			if (function_exists('openssl_random_pseudo_bytes')) {
+			if (function_exists('random_bytes')) {
+				$key = bin2hex(random_bytes(32));
+			} elseif (function_exists('openssl_random_pseudo_bytes')) {
 				$key = bin2hex(openssl_random_pseudo_bytes(32));
 			} else {
-				$key = bin2hex(mcrypt_create_iv(32, MCRYPT_DEV_URANDOM));
+				throw new Exception('No secure random number generator found.');
 			}
 			
 			if(empty($_SESSION["castor_csrfTokenlist"]) || !isset($_SESSION["castor_csrfTokenlist"])){
