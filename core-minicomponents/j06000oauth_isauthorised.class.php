@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Core file.
  *
@@ -48,23 +48,10 @@ class j06000oauth_isauthorised
 		
 		if (!$thisJRUser->userIsRegistered) {
 			if (isset($_POST['username'])) {
-				if (this_cms_is_joomla()) {
-					$app = JFactory::getApplication();
-					$username = $app->input->get('username', '', 'STRING');
-					$password = $app->input->get('password', '', 'STRING');
-					$result = $app->login(array('username' => $username, 'password' => $password));
-				} else {
-					$credentials = array();
-					$credentials['user_login'] = castorGetParam($_POST, 'username', '');
-					$credentials['user_password'] = castorGetParam($_POST, 'password', '');
-					$user = wp_signon($credentials);
-		 
-					if (is_wp_error($user)) {
-						$result = false;
-					} else {
-						$result = true;
-					}
-				}
+				$app = JFactory::getApplication();
+				$username = $app->input->get('username', '', 'STRING');
+				$password = $app->input->get('password', '', 'STRING');
+				$result = $app->login(array('username' => $username, 'password' => $password));
 		
 				if ($result) { // we've authenticated the user in the cms, we now need to reload the user's Castor details
 					jr_import("jr_user");

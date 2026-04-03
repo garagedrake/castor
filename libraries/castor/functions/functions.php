@@ -115,28 +115,19 @@ if (!function_exists('castor_parse_modules')) {
         preg_match_all($regex, $contents, $matches, PREG_SET_ORDER);
         if ($matches)
         {
-            if (!this_cms_is_joomla()) {
-                foreach ($matches[0] as $match) {
-                    $new_match = str_replace( "{module id=" , "" , $matches[0] );
-                    $new_match = str_replace( "]}" , "]" , $new_match );
-                    $shortcode_contents = do_shortcode(trim($new_match[0]));
-                    $contents = str_replace($matches[0][0] , $shortcode_contents, $contents );
-                }
-            } else {
-                $app = JFactory::getApplication();
-                $document = $app->getDocument();
+            $app = JFactory::getApplication();
+            $document = $app->getDocument();
 
-                foreach ($matches as $match)
-                {
-                    $matcheslist = explode(',', $match[1]);
-                    $replace_pattern = "{module ".$match[1]."}";
-                    $bang = explode( "=" , $matcheslist[0]) ;
-                    if ($bang[0] == 'id') {
-                        $renderer = $document->loadRenderer('module');
-                        $mod  = ModuleHelper::getModuleById( $bang[1] );
-                        $module_contents = $renderer->render($mod, [] );
-                        $contents = str_replace($replace_pattern , $module_contents, $contents );
-                    }
+            foreach ($matches as $match)
+            {
+                $matcheslist = explode(',', $match[1]);
+                $replace_pattern = "{module ".$match[1]."}";
+                $bang = explode( "=" , $matcheslist[0]) ;
+                if ($bang[0] == 'id') {
+                    $renderer = $document->loadRenderer('module');
+                    $mod  = ModuleHelper::getModuleById( $bang[1] );
+                    $module_contents = $renderer->render($mod, [] );
+                    $contents = str_replace($replace_pattern , $module_contents, $contents );
                 }
             }
         }
@@ -164,19 +155,14 @@ if (!function_exists('get_override_directory')) {
             return $override_path;
         }
 
-        if (this_cms_is_joomla()) {
-            $app = JFactory::getApplication();
-            $joomla_templateName = $app->getTemplate('template')->template;
-            if ( function_exists('castor_cmsspecific_areweinadminarea') && castor_cmsspecific_areweinadminarea()) {
-                $path_to_template = CASTORCONFIG_ABSOLUTE_PATH . CASTOR_ADMINISTRATORDIRECTORY . JRDS . "templates" .JRDS. $joomla_templateName ; // I don't think I've ever used this, don't know if it works
-            } else {
-                $path_to_template = CASTORCONFIG_ABSOLUTE_PATH . "templates" .JRDS. $joomla_templateName ;
-            }
-            $override_path = $path_to_template .JRDS . 'html' . JRDS . 'com_castor';
+        $app = JFactory::getApplication();
+        $joomla_templateName = $app->getTemplate('template')->template;
+        if ( function_exists('castor_cmsspecific_areweinadminarea') && castor_cmsspecific_areweinadminarea()) {
+            $path_to_template = CASTORCONFIG_ABSOLUTE_PATH . CASTOR_ADMINISTRATORDIRECTORY . JRDS . "templates" .JRDS. $joomla_templateName ; // I don't think I've ever used this, don't know if it works
         } else {
-            $path_to_template =  get_theme_file_path();
-            $override_path = $path_to_template . JRDS . 'html' . JRDS . 'com_castor';
+            $path_to_template = CASTORCONFIG_ABSOLUTE_PATH . "templates" .JRDS. $joomla_templateName ;
         }
+        $override_path = $path_to_template .JRDS . 'html' . JRDS . 'com_castor';
 
         set_showtime('template_override_path',$override_path);
         define('CASTOR_OVERRIDE_PATH' , $override_path);
@@ -5434,11 +5420,11 @@ if (!function_exists('scandir_getfiles_recursive')) {
 if (!function_exists('this_cms_is_joomla')) {
     function this_cms_is_joomla()
     {
-        if (_CASTOR_DETECTED_CMS != 'joomla3' && _CASTOR_DETECTED_CMS != 'joomla4') {
-            return false;
+        if (_CASTOR_DETECTED_CMS == 'joomla3' || _CASTOR_DETECTED_CMS == 'joomla4' || _CASTOR_DETECTED_CMS == 'joomla5') {
+            return true;
         }
 
-        return true;
+        return false;
     }
 }
 

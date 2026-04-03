@@ -21,22 +21,7 @@ defined('_CASTOR_INITCHECK') or die('');
  * 
  **/
  
-if (file_exists(CASTORCONFIG_ABSOLUTE_PATH.JRDS.'libraries'.JRDS.'cms'.JRDS.'version'.JRDS.'version.php')) {
-	if (!defined('JPATH_PLATFORM')) {
-		define('JPATH_PLATFORM', 1);
-	} // Joomla 3.3.1 uses this instead of JEXEC.
-
-	require_once CASTORCONFIG_ABSOLUTE_PATH.JRDS.'libraries'.JRDS.'cms'.JRDS.'version'.JRDS.'version.php';
-
-	$jversion = new JVersion();
-	$bang = explode('.', $jversion->getShortVersion());
-	$vshort_version = $bang[0];
-
-	if ($vshort_version == '3') {
-		define('_CASTOR_DETECTED_CMS', 'joomla3');
-		define('_CASTOR_DETECTED_CMS_SPECIFIC_FILES', CASTOR_CMSSPECIFIC_ABSPATH._CASTOR_DETECTED_CMS.JRDS);
-	}
-} elseif (file_exists(CASTORCONFIG_ABSOLUTE_PATH.JRDS.'libraries'.JRDS.'src'.JRDS.'Version.php')) {
+if (file_exists(CASTORCONFIG_ABSOLUTE_PATH.JRDS.'libraries'.JRDS.'src'.JRDS.'Version.php')) {
 	if (!defined('JPATH_PLATFORM')) {
 		define('JPATH_PLATFORM', 1);
 	}
@@ -44,10 +29,6 @@ if (file_exists(CASTORCONFIG_ABSOLUTE_PATH.JRDS.'libraries'.JRDS.'cms'.JRDS.'ver
 	require_once CASTORCONFIG_ABSOLUTE_PATH.JRDS.'libraries'.JRDS.'src'.JRDS.'Version.php';
 
 	$jversion = new Joomla\CMS\Version();
-	if ($jversion::MAJOR_VERSION == '3') {
-		define('_CASTOR_DETECTED_CMS', 'joomla3');
-		define('_CASTOR_DETECTED_CMS_SPECIFIC_FILES', CASTOR_CMSSPECIFIC_ABSPATH._CASTOR_DETECTED_CMS.JRDS);
-	}
 	if ($jversion::MAJOR_VERSION == '4') {
 		define('_CASTOR_DETECTED_CMS', 'joomla4');
 		define('_CASTOR_DETECTED_CMS_SPECIFIC_FILES', CASTOR_CMSSPECIFIC_ABSPATH._CASTOR_DETECTED_CMS.JRDS);
@@ -55,39 +36,6 @@ if (file_exists(CASTORCONFIG_ABSOLUTE_PATH.JRDS.'libraries'.JRDS.'cms'.JRDS.'ver
 	if ($jversion::MAJOR_VERSION == '5') {
 		define('_CASTOR_DETECTED_CMS', 'joomla5');
 		define('_CASTOR_DETECTED_CMS_SPECIFIC_FILES', CASTOR_CMSSPECIFIC_ABSPATH._CASTOR_DETECTED_CMS.JRDS);
-	}
-}
-
-
-
-if (!defined('_CASTOR_DETECTED_CMS')) {
-	$jrePath = CASTOR_REMOTEPLUGINS_ABSPATH;
-	$d = @dir($jrePath);
-	$docs = array();
-	if ($d) {
-		while (false !== ($entry = $d->read())) {
-			$filename = $entry;
-			if (substr($entry, 0, 1) != '.') {
-				$docs[ ] = $entry;
-			}
-		}
-		$d->close();
-		if (!empty($docs)) {
-			sort($docs);
-			foreach ($docs as $doc) {
-				$listdir = $jrePath.$doc.JRDS;
-				$dr = @dir($listdir);
-				if ($dr) {
-					while (false !== ($entry = $dr->read())) {
-						$filename = $entry;
-						if ($filename == 'detect_cms.php') {
-							require_once $jrePath.'detect_cms.php';
-						}
-					}
-					$dr->close();
-				}
-			}
-		}
 	}
 }
 
